@@ -15,7 +15,7 @@ const AddTaskModal = ({ onSave, taskUpdate,onCloseClick }) => {
 
 const [isAdd, setIsAdd] = useState(isEmptyObject(taskUpdate));
 
-  console.log("taskUpdate:", taskUpdate);
+  //console.log("taskUpdate:", taskUpdate);
 
 
   const handleChange = (e) => {
