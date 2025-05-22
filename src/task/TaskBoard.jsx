@@ -3,6 +3,7 @@ import SearchTask from "./SearchTask";
 import TaskAction from "./TaskAction";
 import TaskList from "./TaskList";
 import AddTaskModal from "./AddTaskModal";
+import NoTaskFound from "./NoTaskFound";
 
 const TaskBoard = () => {
   const defaultTask = {
@@ -80,12 +81,16 @@ const TaskBoard = () => {
             onAddClick={() => setIsModalOpen(true)}
             onDeleteAllClick={handleDeleteAll}
           />
-          <TaskList
-            tasks={tasks}
-            onEdit={handleEditTask}
-            onDelete={handleDeleteTask}
-            onFavourite={handleFavourite}
-          />
+          {tasks.length === 1 ? (
+            <TaskList
+              tasks={tasks}
+              onEdit={handleEditTask}
+              onDelete={handleDeleteTask}
+              onFavourite={handleFavourite}
+            />
+          ) : (
+            <NoTaskFound />
+          )}
         </div>
       </div>
     </section>
