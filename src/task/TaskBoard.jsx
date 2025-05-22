@@ -36,14 +36,21 @@ const TaskBoard = () => {
     setTaskUpdate(null);
   }
 
-  function handleDeleteTask(taskId){
+  function handleDeleteTask(taskId) {
     const taskAfterDelete = tasks.filter((task) => task.id !== taskId);
     setTasks(taskAfterDelete);
   }
 
-  function handleDeleteAll(){
+  function handleDeleteAll() {
     tasks.length = 0;
     setTasks([...tasks]);
+  }
+
+  function handleFavourite(taskId) {
+    const taskIndex = tasks.findIndex((task) => task.id === taskId);
+    const newTasks = [...tasks];
+    newTasks[taskIndex].isFavourite = !newTasks[taskIndex].isFavourite;
+    setTasks(newTasks);
   }
 
   return (
@@ -61,11 +68,16 @@ const TaskBoard = () => {
         </div>
 
         <div className="rounded-xl border border-[rgba(206,206,206,0.12)] bg-[#1D212B] px-6 py-8 md:px-9 md:py-16">
-          <TaskAction onAddClick={() => setIsModalOpen(true)} onDeleteAllClick = {handleDeleteAll} />
-          <TaskList 
-          tasks={tasks} 
-          onEdit={handleEditTask} 
-          onDelete={handleDeleteTask} />
+          <TaskAction
+            onAddClick={() => setIsModalOpen(true)}
+            onDeleteAllClick={handleDeleteAll}
+          />
+          <TaskList
+            tasks={tasks}
+            onEdit={handleEditTask}
+            onDelete={handleDeleteTask}
+            onFavourite={handleFavourite}
+          />
         </div>
       </div>
     </section>
