@@ -15,14 +15,32 @@ const TaskBoard = () => {
   };
   const [tasks, setTasks] = useState([defaultTask]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  function handleAddTask(newTask) {
-    setTasks([...tasks, newTask]);
+  const [taskUpdate, setTaskUpdate] = useState({});
 
+  function handleAddEditTask(newTask, isAdd) {
+    if (isAdd) {
+      setTasks([...tasks, newTask]);
+    } else {
+      setTasks(tasks.map((task) => (task.id === newTask.id ? newTask : task)));
+    }
     setIsModalOpen(false);
   }
+
+  function handleEditTask(task) {
+    setTaskUpdate(task);
+    setIsModalOpen(true);
+  }
+
+  function handleCloseClick() {
+    setIsModalOpen(false);
+    setTaskUpdate(null);
+  }
+
   return (
     <section className="mb-20" id="tasks">
-      {isModalOpen && <AddTaskModal onSave={handleAddTask} />}
+      {isModalOpen && (
+        <AddTaskModal onSave={handleAddEditTask} taskUpdate={taskUpdate} onCloseClick={handleCloseClick}/>
+      )}
       <div className="container">
         <div className="p-2 flex justify-end">
           <SearchTask />
@@ -30,7 +48,7 @@ const TaskBoard = () => {
 
         <div className="rounded-xl border border-[rgba(206,206,206,0.12)] bg-[#1D212B] px-6 py-8 md:px-9 md:py-16">
           <TaskAction onAddClick={() => setIsModalOpen(true)} />
-          <TaskList tasks={tasks} />
+          <TaskList tasks={tasks} onEdit={handleEditTask} />
         </div>
       </div>
     </section>
